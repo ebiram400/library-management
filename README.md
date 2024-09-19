@@ -19,11 +19,11 @@ A simple library management system built with Java 17 and Spring Boot 2.7.18. Th
 
 ## Project Structure
 
-library-management/ ├── src/ ├── main/  |||  ├── java/```   ```||| ├── ir.dotin.softwaresystems.librarymanagement/ ||| ├──controller/```
-                          ```└── test/``` ```└── resources/```                                                 ```└── dto/```
-                                                                                                               ```└── exceptions/```
-                                                                                                               ```└── repository/```
-                                                                                                               ```└── service/
+```library-management/ ├── src/ ├── main/  |||  ├── java/         ||| ├── ir.dotin.softwaresystems.librarymanagement/ ||| ├──controller/```
+```                             └── test/       └── resources/                                                            └── dto/```
+```                                                                                                                       └── exceptions/```
+```                                                                                                                       └── repository/```
+```                                                                                                                       └── service/```
 ## Setup Instructions
 
 1. Clone the repository:
