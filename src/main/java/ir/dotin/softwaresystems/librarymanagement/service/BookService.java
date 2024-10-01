@@ -1,50 +1,81 @@
 package ir.dotin.softwaresystems.librarymanagement.service;
 
-import com.google.gson.Gson;
+import ir.dotin.softwaresystems.librarymanagement.dto.BookStatus;
 import ir.dotin.softwaresystems.librarymanagement.dto.Bookdto;
+import ir.dotin.softwaresystems.librarymanagement.entity.BookEntity;
+import ir.dotin.softwaresystems.librarymanagement.mapper.BookMapper;
 import ir.dotin.softwaresystems.librarymanagement.repository.Books;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 
 @Slf4j
 @Service
 public class BookService {
     private final Books books;
+    private final BookMapper bookMapper;
 
     @Autowired
-    public BookService(Books books) {
+    public BookService(Books books, BookMapper bookMapper) {
         this.books = books;
+        this.bookMapper = bookMapper;
     }
 
-    public String watchBooks(){
+    public ArrayList<Bookdto> watchBooks() throws Exception {
         try{
-            return new Gson().toJson(books.getBooks());
+            return books.findAll().parallelStream().map(BookMapper.INSTANCE::toDto).collect(Collectors.toCollection(ArrayList::new));
         }catch (Exception e){
             log.error(e.getMessage());
-            return "watch books failed";
+            throw new Exception("watch books failed");
         }
-
     }
 
-    public String addBooks(Bookdto book){
+    public Bookdto addBooks(Bookdto book) throws Exception {
         try{
-            books.addBook(book);
-            return "book added";
+            books.save(BookMapper.INSTANCE.toEntity(book));
+            return book;
         }catch(Exception e){
             log.error(e.getMessage());
-            return "delete book failed";
+            throw new Exception("add book fail!");
         }
     }
 
-    public String deleteBooks(Bookdto book){
+    public Bookdto deleteBooks(Bookdto book) throws Exception {
         try{
-            books.DeleteBook(book);
-            return "Book deleted";
+            books.delete(BookMapper.INSTANCE.toEntity(book));
+            return book;
         }catch (Exception e){
             log.error(e.getMessage());
-            return "delete book failed";
+            throw new Exception("delete book failed");
         }
+    }
+
+    public BookEntity findBook(Bookdto book) throws Exception {
+            return books.searchAllByBookNameAndAuthorAndPublisher(book.getBookName(), book.getAuthor(), book.getPublisher())
+                    .parallelStream().filter(firstBook->firstBook.getStatus().equals(BookStatus.BOOKABLE)).findFirst().orElseThrow(Exception::new);
+    }
+
+    public Bookdto findBookById(BookEntity book) throws Exception {
+        try{
+            return BookMapper.INSTANCE.toDto(books.findById(book.getId()).orElseThrow(Exception::new));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public BookEntity findBookById(Bookdto book) throws Exception {
+        try {
+            return books.findById(book.getId()).orElseThrow(Exception::new);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateStatusBook(Bookdto book) throws Exception {
+        books.updateStatusBook(bookMapper.toEntity(book));
     }
 }
