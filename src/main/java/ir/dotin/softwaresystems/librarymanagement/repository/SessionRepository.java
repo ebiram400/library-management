@@ -1,6 +1,7 @@
 package ir.dotin.softwaresystems.librarymanagement.repository;
 
-import ir.dotin.softwaresystems.librarymanagement.dto.Userdto;
+import ir.dotin.softwaresystems.librarymanagement.dto.UserDTO;
+import ir.dotin.softwaresystems.librarymanagement.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,7 +22,7 @@ public class SessionRepository {
         this.session = session;
     }
 
-    public void createUserSession(Userdto userOnDB) {
+    public void createUserSession(UserEntity userOnDB) {
         session.setAttribute("userId", userOnDB.getId());
         session.setAttribute("username", userOnDB.getUsername());
         List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_"+userOnDB.getRole()));
@@ -29,7 +30,11 @@ public class SessionRepository {
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
-    public int getUserIdSession(){
-        return (Integer) session.getAttribute("userId");
+    public Long getUserIdSession(){
+        return (Long) session.getAttribute("userId");
+    }
+
+    public String getUsernameSession(){
+        return (String) session.getAttribute("username");
     }
 }

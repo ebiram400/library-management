@@ -1,27 +1,27 @@
 package ir.dotin.softwaresystems.librarymanagement.dto;
 
+import ir.dotin.softwaresystems.librarymanagement.repository.SessionRepository;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 public class Requestdto {
-    private int id;
-    private int user_id;
-    private int book_id;
+    private UserDTO user;
+    private Bookdto book;
     private RequestStatus requestStatus = RequestStatus.PENDING_APPROVAL;
 
     public Requestdto() {
     }
 
-    public Requestdto(int user_id, int book_id) {
-        this.user_id = user_id;
-        this.book_id = book_id;
+    public Requestdto(UserDTO user, Bookdto book, RequestStatus requestStatus) {
+        this.user = user;
+        this.book = book;
+        this.requestStatus = requestStatus;
     }
 
-    public Requestdto(int user_id, int book_id, RequestStatus requestStatus) {
-        this.user_id = user_id;
-        this.book_id = book_id;
-        this.requestStatus = requestStatus;
+    public Requestdto(Bookdto book,SessionRepository sessionRepository) {
+        this.book = book;
+        this.user=new UserDTO(sessionRepository.getUsernameSession());
     }
 }
