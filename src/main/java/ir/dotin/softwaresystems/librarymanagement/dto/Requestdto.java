@@ -1,8 +1,10 @@
 package ir.dotin.softwaresystems.librarymanagement.dto;
 
-import ir.dotin.softwaresystems.librarymanagement.repository.SessionRepository;
+import ir.dotin.softwaresystems.librarymanagement.service.MyUserDetails;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @Getter
 @Setter
@@ -11,8 +13,6 @@ public class Requestdto {
     private Bookdto book;
     private RequestStatus requestStatus = RequestStatus.PENDING_APPROVAL;
 
-    public Requestdto() {
-    }
 
     public Requestdto(UserDTO user, Bookdto book, RequestStatus requestStatus) {
         this.user = user;
@@ -20,8 +20,4 @@ public class Requestdto {
         this.requestStatus = requestStatus;
     }
 
-    public Requestdto(Bookdto book,SessionRepository sessionRepository) {
-        this.book = book;
-        this.user=new UserDTO(sessionRepository.getUsernameSession());
-    }
 }

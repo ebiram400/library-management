@@ -8,10 +8,11 @@ import javax.persistence.*;
 
 @Setter @Getter
 @Entity
-@Table(name = "request")
+@Table(name = "requests")
 public class UserRequestEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "user_id", nullable = false)

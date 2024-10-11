@@ -1,6 +1,8 @@
 package ir.dotin.softwaresystems.librarymanagement.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -8,6 +10,8 @@ import javax.persistence.*;
 @Entity
 @Table(name = "users")
 @Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,21 +25,6 @@ public class UserEntity {
 
     @Column(name = "role",nullable = false)
     private String role;
-
-    public UserEntity() {
-    }
-
-    public UserEntity(long id, String username) {
-        this.id = id;
-        this.username = username;
-    }
-
-    public UserEntity(long id, String username, String password, String role) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.role = role;
-    }
 
     public UserEntity(Long userId) {
         this.id = userId;

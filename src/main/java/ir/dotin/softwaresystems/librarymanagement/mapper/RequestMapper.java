@@ -6,32 +6,36 @@ import ir.dotin.softwaresystems.librarymanagement.dto.Requestdto;
 import ir.dotin.softwaresystems.librarymanagement.entity.BookEntity;
 import ir.dotin.softwaresystems.librarymanagement.entity.UserEntity;
 import ir.dotin.softwaresystems.librarymanagement.entity.UserRequestEntity;
-import ir.dotin.softwaresystems.librarymanagement.repository.Requests;
-import ir.dotin.softwaresystems.librarymanagement.repository.SessionRepository;
-import ir.dotin.softwaresystems.librarymanagement.repository.Users;
-import ir.dotin.softwaresystems.librarymanagement.service.Authentication;
+import ir.dotin.softwaresystems.librarymanagement.service.AuthService;
 import ir.dotin.softwaresystems.librarymanagement.service.BookService;
+import ir.dotin.softwaresystems.librarymanagement.service.MyUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.RequestEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 @Slf4j
-@Mapper
+@Component
 public class RequestMapper {
 
     private final BookService bookService;
-    private final Authentication authentication;
+    private final AuthService authentication;
+
     @Autowired
-    public RequestMapper(BookService bookService, Authentication authentication) {
+    public RequestMapper(BookService bookService, AuthService authentication) {
         this.bookService = bookService;
         this.authentication = authentication;
     }
 
-    public UserRequestEntity toEntity(Bookdto book, SessionRepository sessionRepository) {
+    public UserRequestEntity toEntity(Bookdto book) {
         try {
-            return new UserRequestEntity(sessionRepository.getUserIdSession(),bookService.findBook(book).getId(),RequestStatus.PENDING_APPROVAL);
+            Authentication authSecurity = SecurityContextHolder.getContext().getAuthentication();
+            MyUserDetails userDetails = (MyUserDetails) authSecurity.getPrincipal();
+            Long userId = userDetails.getId();
+
+            return new UserRequestEntity(userId,bookService.findBook(book).getId(),RequestStatus.PENDING_APPROVAL);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage(),e);
         }

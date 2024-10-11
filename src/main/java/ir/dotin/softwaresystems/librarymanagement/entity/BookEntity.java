@@ -1,6 +1,7 @@
 package ir.dotin.softwaresystems.librarymanagement.entity;
 
 import ir.dotin.softwaresystems.librarymanagement.dto.BookStatus;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 

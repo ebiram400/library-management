@@ -4,6 +4,7 @@ import ir.dotin.softwaresystems.librarymanagement.dto.Bookdto;
 import ir.dotin.softwaresystems.librarymanagement.entity.BookEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+import org.springframework.stereotype.Component;
 
 @Mapper
 public interface BookMapper {

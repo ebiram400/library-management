@@ -17,12 +17,10 @@ import java.util.stream.Collectors;
 @Service
 public class BookService {
     private final Books books;
-    private final BookMapper bookMapper;
 
     @Autowired
-    public BookService(Books books, BookMapper bookMapper) {
+    public BookService(Books books) {
         this.books = books;
-        this.bookMapper = bookMapper;
     }
 
     public ArrayList<Bookdto> watchBooks() throws Exception {
@@ -76,6 +74,6 @@ public class BookService {
     }
 
     public void updateStatusBook(Bookdto book) throws Exception {
-        books.updateStatusBook(bookMapper.toEntity(book));
+        books.save(BookMapper.INSTANCE.toEntity(book));
     }
 }

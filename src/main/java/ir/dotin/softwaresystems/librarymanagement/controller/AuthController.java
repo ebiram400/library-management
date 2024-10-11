@@ -1,36 +1,29 @@
 package ir.dotin.softwaresystems.librarymanagement.controller;
 
 import ir.dotin.softwaresystems.librarymanagement.dto.UserDTO;
-import ir.dotin.softwaresystems.librarymanagement.service.Authentication;
+import ir.dotin.softwaresystems.librarymanagement.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Optional;
-
 
 @RestController
 public class AuthController {
-    private final Authentication authentication;
+    private final AuthService authentication;
 
     @Autowired
-    public AuthController(Authentication authentication) {
+    public AuthController(AuthService authentication) {
         this.authentication = authentication;
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<?> loginController(@RequestBody UserDTO Unauthenticateduser) {
-        if(authentication.login(Unauthenticateduser) instanceof String)
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,(String) authentication.login(Unauthenticateduser));
-        return ResponseEntity.ok(authentication.login(Unauthenticateduser));
-    }
-
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public ResponseEntity<Object> signupController(@RequestBody UserDTO Unauthenticateduser) {
-        if(authentication.signup(Unauthenticateduser) instanceof String)
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,(String) authentication.signup(Unauthenticateduser));
-        return ResponseEntity.ok(authentication.signup(Unauthenticateduser));
+    public ResponseEntity<UserDTO> signupController(@RequestBody UserDTO Unauthenticateduser) throws Exception {
+        try {
+            return ResponseEntity.ok(authentication.signup(Unauthenticateduser));
+        }catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,e.getMessage());
+        }
     }
 }
