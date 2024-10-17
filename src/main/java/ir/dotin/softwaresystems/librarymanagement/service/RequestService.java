@@ -21,18 +21,31 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class RequestService {
-    private final Requests requests;
-    private final RequestMapper requestMapper;
-    private final BookService bookService;
-    private final AuthService authService;
+    private Requests requests;
+    private RequestMapper requestMapper;
+    private BookService bookService;
+    private AuthService authService;
 
     @Autowired
-    public RequestService(Requests requests, RequestMapper requestMapper, BookService bookService, AuthService authService) {
-        this.requests = requests;
-        this.requestMapper = requestMapper;
+    public void setBookService(BookService bookService) {
         this.bookService = bookService;
+    }
+
+    @Autowired
+    public void setRequests(Requests requests) {
+        this.requests = requests;
+    }
+
+    @Autowired
+    public void setRequestMapper(RequestMapper requestMapper) {
+        this.requestMapper = requestMapper;
+    }
+
+    @Autowired
+    public void setAuthService(AuthService authService) {
         this.authService = authService;
     }
+
 
     public ArrayList<Requestdto> watchRequests() throws Exception {
         try{
@@ -74,7 +87,7 @@ public class RequestService {
                 return requestdto;
             }
 
-            if(bookService.findBookById(requestdto.getBook()).getStatus().equals(BookStatus.NOT_BOOKABLE)){
+            if(bookService.findBookEntityById(requestdto.getBook()).getStatus().equals(BookStatus.NOT_BOOKABLE)){
                 requestdto.getBook().setId(bookService.findBook(requestdto.getBook()).getId());
                 requests.updateBookIdAndStatus(userRequest.getId(),requestdto.getBook().getId(),requestdto.getRequestStatus().toString());
             }

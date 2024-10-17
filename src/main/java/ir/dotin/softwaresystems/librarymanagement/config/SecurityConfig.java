@@ -19,8 +19,9 @@ public class SecurityConfig {
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable().authorizeRequests()
-                .antMatchers("/signup","/books/view").permitAll()  //this url available for all
+                .antMatchers("/signup","/books/view","/login").permitAll()  //this url available for all
                 .anyRequest().authenticated().and() //all method when authenticated run
+                .formLogin().loginPage("/login").and()
                 .rememberMe(Customizer.withDefaults())
                 .userDetailsService(userDetailsService)
                 .build();

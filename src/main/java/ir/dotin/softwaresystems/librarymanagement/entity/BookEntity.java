@@ -26,6 +26,9 @@ public class BookEntity {
     @Column(name = "publisher",nullable = false)
     private String publisher;
 
+    @Column(name = "category",nullable = false)
+    private String category;
+
     @Column(name = "status",nullable = false)
     @Enumerated(EnumType.STRING)
     private BookStatus status;

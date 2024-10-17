@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 
 @RestController
@@ -34,7 +35,7 @@ public class RequestController {
 
     @PreAuthorize("hasRole('MEMBER')")
     @PostMapping
-    public ResponseEntity<Requestdto> postRequests(@RequestBody Bookdto book) {
+    public ResponseEntity<Requestdto> postRequests(@RequestBody @Valid Bookdto book) {
         try {
             return ResponseEntity.ok(requestService.addRequest(book));
         }catch (Exception e){
@@ -44,7 +45,7 @@ public class RequestController {
 
     @PreAuthorize("hasRole('LIBRARIAN')")
     @PatchMapping
-    public ResponseEntity<Requestdto> patchRequests(@RequestBody Requestdto requestdto) {
+    public ResponseEntity<Requestdto> patchRequests(@RequestBody @Valid Requestdto requestdto) {
         try {
             return ResponseEntity.ok(requestService.responseRequests(requestdto));
         } catch (Exception e) {

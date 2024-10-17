@@ -6,7 +6,7 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-10-11T22:30:01+0330",
+    date = "2024-10-17T06:42:03+0330",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.11 (Oracle Corporation)"
 )
 public class BookMapperImpl implements BookMapper {
@@ -23,6 +23,7 @@ public class BookMapperImpl implements BookMapper {
         bookEntity.setBookName( bookdto.getBookName() );
         bookEntity.setAuthor( bookdto.getAuthor() );
         bookEntity.setPublisher( bookdto.getPublisher() );
+        bookEntity.setCategory( bookdto.getCategory() );
         bookEntity.setStatus( bookdto.getStatus() );
         bookEntity.setTheLastRecipient( bookdto.getTheLastRecipient() );
         bookEntity.setLastDateOfReservation( bookdto.getLastDateOfReservation() );
@@ -42,6 +43,7 @@ public class BookMapperImpl implements BookMapper {
         bookdto.setBookName( bookentity.getBookName() );
         bookdto.setAuthor( bookentity.getAuthor() );
         bookdto.setPublisher( bookentity.getPublisher() );
+        bookdto.setCategory( bookentity.getCategory() );
         bookdto.setStatus( bookentity.getStatus() );
         bookdto.setTheLastRecipient( bookentity.getTheLastRecipient() );
         bookdto.setLastDateOfReservation( bookentity.getLastDateOfReservation() );

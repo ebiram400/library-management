@@ -20,21 +20,25 @@ import org.springframework.stereotype.Component;
 @Component
 public class RequestMapper {
 
-    private final BookService bookService;
-    private final AuthService authentication;
+    private BookService bookService;
+    private AuthService authentication;
+
+    public RequestMapper() {
+    }
 
     @Autowired
-    public RequestMapper(BookService bookService, AuthService authentication) {
+    public void setBookService(BookService bookService) {
         this.bookService = bookService;
+    }
+
+    @Autowired
+    public void setAuthService(AuthService authentication) {
         this.authentication = authentication;
     }
 
     public UserRequestEntity toEntity(Bookdto book) {
         try {
-            Authentication authSecurity = SecurityContextHolder.getContext().getAuthentication();
-            MyUserDetails userDetails = (MyUserDetails) authSecurity.getPrincipal();
-            Long userId = userDetails.getId();
-
+            Long userId = authentication.getUserIdFromContext();
             return new UserRequestEntity(userId,bookService.findBook(book).getId(),RequestStatus.PENDING_APPROVAL);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage(),e);

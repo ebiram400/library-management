@@ -1,5 +1,7 @@
 package ir.dotin.softwaresystems.librarymanagement.entity;
 
+import ir.dotin.softwaresystems.librarymanagement.converter.PasswordConverter;
+import ir.dotin.softwaresystems.librarymanagement.converter.UserNameConverter;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,9 +19,11 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+//    @Convert(converter = UserNameConverter.class)
     @Column(name = "username",nullable = false,unique = true)
     private String username;
 
+    @Convert(converter = PasswordConverter.class)
     @Column(name = "password",nullable = false)
     private String password;
 

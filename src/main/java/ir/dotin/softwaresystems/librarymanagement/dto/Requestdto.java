@@ -6,10 +6,15 @@ import lombok.Setter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 @Getter
 @Setter
 public class Requestdto {
+    @NotNull @Valid
     private UserDTO user;
+    @NotNull @Valid
     private Bookdto book;
     private RequestStatus requestStatus = RequestStatus.PENDING_APPROVAL;
 

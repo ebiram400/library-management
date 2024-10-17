@@ -8,6 +8,8 @@ import ir.dotin.softwaresystems.librarymanagement.mapper.UserMapper;
 import ir.dotin.softwaresystems.librarymanagement.repository.Users;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 
@@ -38,5 +40,11 @@ public class AuthService {
 
     public UserEntity getUserByUsername(UserDTO user) {
         return users.findByUsername(user.getUsername());
+    }
+
+    public Long getUserIdFromContext(){
+        Authentication authSecurity = SecurityContextHolder.getContext().getAuthentication();
+        MyUserDetails userDetails = (MyUserDetails) authSecurity.getPrincipal();
+        return userDetails.getId();
     }
 }
